@@ -1,6 +1,5 @@
 /* globals describe expect test */
 
-import * as fs from 'fs'
 import {parse} from '../src/parse'
 import {loadFixture} from './utils'
 
