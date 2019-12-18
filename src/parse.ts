@@ -1,4 +1,4 @@
-const regex = /^(?<key>[^:\s\n][^:\n]*)\s*:\s*(?<value>[^\n]+)$/gm
+const regex = /^(?<key>[^:\s][^:\r\n]*)\s*:\s*(?<value>[^\r\n]+)$/gm
 
 export function parse(body: string): Map<string, string> {
   const params: Map<string, string> = new Map()
