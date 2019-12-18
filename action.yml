@@ -1,0 +1,10 @@
+---
+name: 'Parse Issue'
+description: 'Extracts key-value pairs from GitHub a GitHub Issue body and sets them as output'
+author: 'Jason Macgowan'
+branding:
+  icon: file-text
+  color: green
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
