@@ -18,6 +18,16 @@ describe('parser', () => {
     ])
     expect(parse(body)).toEqual(params)
   })
+
+  test('parses different line-endings', () => {
+    const body = 'name: Mona\r\nsnack: cookies\ncolor: green'
+    const params = new Map<string, string>([
+      ['name', 'Mona'],
+      ['snack', 'cookies'],
+      ['color', 'green']
+    ])
+    expect(parse(body)).toEqual(params)
+  })
 })
 
 describe('default regex', () => {
