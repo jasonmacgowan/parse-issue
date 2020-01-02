@@ -45,9 +45,39 @@ describe('parser', () => {
 })
 
 describe('default regex', () => {
-  test('does not extract lines with leading whitespace', () => {
+  test('trims leading whitespace', () => {
     const body = loadFixture('issues/leading-whitespace.md')
-    const params = new Map<string, string>([['name', 'Mona']])
+    const params = new Map<string, string>([
+      ['name', 'Mona'],
+      ['color', 'blue']
+    ])
+    expect(parse(body)).toEqual(params)
+  })
+
+  test('does not match non-word characters', () => {
+    const body = loadFixture('issues/non-word.md')
+    const params = new Map<string, string>([
+      ['name', 'Mona'],
+      ['color', 'blue']
+    ])
+    expect(parse(body)).toEqual(params)
+  })
+
+  test('matches spaces and tabs as value', () => {
+    const body = loadFixture('issues/spaces-tabs.md')
+    const params = new Map<string, string>([
+      ['name', 'Mona'],
+      ['color', 'royal blue']
+    ])
+    expect(parse(body)).toEqual(params)
+  })
+
+  test('does not match spaces and tabs in key', () => {
+    const body = loadFixture('issues/spaces-tabs.md')
+    const params = new Map<string, string>([
+      ['name', 'Mona'],
+      ['color', 'royal blue']
+    ])
     expect(parse(body)).toEqual(params)
   })
 })
