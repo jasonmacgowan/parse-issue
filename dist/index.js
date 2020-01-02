@@ -3090,7 +3090,7 @@ module.exports = opts => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const regex = /^(?<key>[^:\s][^:\r\n]*)\s*:\s*(?<value>[^\r\n]+)$/gm;
+const regex = /\s*(?<key>[\w]+)\s*:\s*(?<value>[\w\t ]+)\s*/gm;
 function parse(body) {
     const params = new Map();
     let match;
