@@ -3085,12 +3085,25 @@ module.exports = opts => {
 /***/ }),
 
 /***/ 179:
-/***/ (function(__unusedmodule, exports) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const utils_1 = __webpack_require__(611);
 const regex = /\s*(?<key>[\w]+)\s*:\s*(?<value>[\w\t ]+)\s*/gm;
+function parseExtractions(body) {
+    const params = new Map();
+    const extractions = utils_1.getExtractions();
+    for (const [key, matcher] of extractions.entries()) {
+        const value = utils_1.getFirstMatch(matcher, body);
+        if (value) {
+            params.set(key, value);
+        }
+    }
+    return params;
+}
+exports.parseExtractions = parseExtractions;
 function parse(body) {
     const params = new Map();
     let match;
@@ -3102,7 +3115,11 @@ function parse(body) {
             params.set(key, value);
         }
     } while (match !== null);
-    return params;
+    const extractions = parseExtractions(body);
+    return new Map((function* () {
+        yield* params;
+        yield* extractions;
+    })());
 }
 exports.parse = parse;
 
@@ -7420,6 +7437,46 @@ function octokitRestApiEndpoints(octokit) {
 /***/ (function(module) {
 
 module.exports = require("http");
+
+/***/ }),
+
+/***/ 611:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function getFirstMatch(regex, str) {
+    const match = regex.exec(str);
+    if (match) {
+        let index = 0;
+        if (match.length > 1) {
+            index = 1;
+        }
+        return match[index];
+    }
+    return null;
+}
+exports.getFirstMatch = getFirstMatch;
+function getExtractions() {
+    const out = new Map();
+    const keys = Object.keys(process.env);
+    let i;
+    for (i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        const value = process.env[key];
+        // INPUT_EXTRACT_USERNAME but not INPUT_EXTRACT_USERNAME_FLAGS
+        if (key.startsWith('INPUT_EXTRACT_') && !key.endsWith('_FLAGS')) {
+            if (value) {
+                const flags = process.env[`${key}_FLAGS`] || '';
+                out.set(key.replace('INPUT_EXTRACT_', '').toLowerCase(), new RegExp(value, flags));
+            }
+        }
+    }
+    return out;
+}
+exports.getExtractions = getExtractions;
+
 
 /***/ }),
 

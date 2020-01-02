@@ -1,4 +1,21 @@
+import {getExtractions, getFirstMatch} from './utils'
+
 const regex = /\s*(?<key>[\w]+)\s*:\s*(?<value>[\w\t ]+)\s*/gm
+
+export function parseExtractions(body: string): Map<string, string> {
+  const params = new Map<string, string>()
+  const extractions = getExtractions()
+
+  for (const [key, matcher] of extractions.entries()) {
+    const value = getFirstMatch(matcher, body)
+
+    if (value) {
+      params.set(key, value)
+    }
+  }
+
+  return params
+}
 
 export function parse(body: string): Map<string, string> {
   const params: Map<string, string> = new Map()
@@ -14,5 +31,12 @@ export function parse(body: string): Map<string, string> {
     }
   } while (match !== null)
 
-  return params
+  const extractions = parseExtractions(body)
+
+  return new Map(
+    (function*() {
+      yield* params
+      yield* extractions
+    })()
+  )
 }

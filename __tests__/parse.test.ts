@@ -28,6 +28,20 @@ describe('parser', () => {
     ])
     expect(parse(body)).toEqual(params)
   })
+
+  test('parses out input extractions', () => {
+    process.env.INPUT_EXTRACT_SEASON = '<p id="season">(?<season>[^<]+)</p>'
+
+    const body = 'name: Mona\nsnack: cookies\ncolor: green\n<p id="season">winter</p>'
+    const params = new Map<string, string>([
+      ['name', 'Mona'],
+      ['snack', 'cookies'],
+      ['color', 'green'],
+      ['season', 'winter']
+    ])
+
+    expect(parse(body)).toEqual(params)
+  })
 })
 
 describe('default regex', () => {
