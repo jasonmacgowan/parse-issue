@@ -1,6 +1,6 @@
 import {getExtractions, getFirstMatch} from './utils'
 
-const regex = /\s*(?<key>[\w]+)\s*:\s*(?<value>[\w\t ]+)\s*/gm
+const regex = /\s*(?<key>[\w\t ]+)\s*:\s*(?<value>[\w\t ]+)\s*/gm
 
 export function parseExtractions(body: string): Map<string, string> {
   const params = new Map<string, string>()

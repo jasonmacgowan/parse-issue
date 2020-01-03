@@ -3091,7 +3091,7 @@ module.exports = opts => {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const utils_1 = __webpack_require__(611);
-const regex = /\s*(?<key>[\w]+)\s*:\s*(?<value>[\w\t ]+)\s*/gm;
+const regex = /\s*(?<key>[\w\t ]+)\s*:\s*(?<value>[\w\t ]+)\s*/gm;
 function parseExtractions(body) {
     const params = new Map();
     const extractions = utils_1.getExtractions();
