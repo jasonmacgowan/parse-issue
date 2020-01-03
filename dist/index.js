@@ -3092,6 +3092,16 @@ module.exports = opts => {
 Object.defineProperty(exports, "__esModule", { value: true });
 const utils_1 = __webpack_require__(611);
 const regex = /\s*(?<key>[\w\t ]+)\s*:\s*(?<value>[\w\t ]+)\s*/gm;
+function normalizeKey(key) {
+    const characters = /[^\w]/g;
+    return key
+        .replace(characters, '_')
+        .replace(/_{2,}/, '_')
+        .replace(/^_/, '')
+        .replace(/_$/, '')
+        .toLowerCase();
+}
+exports.normalizeKey = normalizeKey;
 function parseExtractions(body) {
     const params = new Map();
     const extractions = utils_1.getExtractions();

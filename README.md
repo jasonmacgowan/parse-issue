@@ -6,6 +6,10 @@ Extract useful information from new issues for use in your GitHub Actions.
 
 Simply add this action to any workflow that runs on GitHub Issue `created` events and it will extract `key: value` pairs as `outputs` to be used in subsequent actions.
 
+This parser will replace whitespace and special characters with `_`, then squash repeating `_` down to one, dropping any leading or trailing `_`
+
+`Email of  User` would become `email_of_user`
+
 #### Example Workflow
 ```Yaml
 - id: parser
@@ -13,7 +17,7 @@ Simply add this action to any workflow that runs on GitHub Issue `created` event
 - uses: actions/some-action@v1
   with:
     foo: ${{steps.parser.outputs.foo}}
-    bar: ${{steps.parser.outouts.bar}}
+    bar: ${{steps.parser.outputs.bar}}
 ```
 
 #### Example Issue

@@ -2,6 +2,16 @@ import {getExtractions, getFirstMatch} from './utils'
 
 const regex = /\s*(?<key>[\w\t ]+)\s*:\s*(?<value>[\w\t ]+)\s*/gm
 
+export function normalizeKey(key: string): string {
+  const characters = /[^\w]/g
+  return key
+    .replace(characters, '_')
+    .replace(/_{2,}/, '_')
+    .replace(/^_/, '')
+    .replace(/_$/, '')
+    .toLowerCase()
+}
+
 export function parseExtractions(body: string): Map<string, string> {
   const params = new Map<string, string>()
   const extractions = getExtractions()
