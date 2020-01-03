@@ -1,9 +1,9 @@
 /* globals describe expect test */
 
-import {parse} from '../src/parse'
+import {parse, normalizeKey} from '../src/parse'
 import {loadFixture} from './utils'
 
-describe('parser', () => {
+describe('parser#parse', () => {
   test('parses issue body', () => {
     const body = loadFixture('issues/parses.md')
     const params = new Map<string, string>([['name', 'Mona']])
@@ -41,6 +41,38 @@ describe('parser', () => {
     ])
 
     expect(parse(body)).toEqual(params)
+  })
+})
+
+describe('parser#normalizeKey', () => {
+  test('transforms to lowercase', () => {
+    const key = 'MoNa'
+    const expected = 'mona'
+    expect(normalizeKey(key)).toEqual(expected)
+  })
+
+  test('replaces special characters', () => {
+    const key = 'mona!@#$%^&*()_+{}|:"<>?-=[]\\;\',./cat'
+    const expected = 'mona_cat'
+    expect(normalizeKey(key)).toEqual(expected)
+  })
+
+  test('replaces whitespace', () => {
+    const key = 'mona\t cat'
+    const expected = 'mona_cat'
+    expect(normalizeKey(key)).toEqual(expected)
+  })
+
+  test('trims leading underscore', () => {
+    const key = '_mona'
+    const expected = 'mona'
+    expect(normalizeKey(key)).toEqual(expected)
+  })
+
+  test('trims trailing underscore', () => {
+    const key = 'mona_'
+    const expected = 'mona'
+    expect(normalizeKey(key)).toEqual(expected)
   })
 })
 
