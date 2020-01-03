@@ -1,2 +1,2 @@
 name: Mona
-color: royal blue
+favorite color: royal blue

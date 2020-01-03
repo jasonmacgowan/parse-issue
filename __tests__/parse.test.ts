@@ -49,7 +49,7 @@ describe('default regex', () => {
     const body = loadFixture('issues/leading-whitespace.md')
     const params = new Map<string, string>([
       ['name', 'Mona'],
-      ['color', 'blue']
+      ['favorite color', 'blue']
     ])
     expect(parse(body)).toEqual(params)
   })
@@ -63,20 +63,11 @@ describe('default regex', () => {
     expect(parse(body)).toEqual(params)
   })
 
-  test('matches spaces and tabs as value', () => {
+  test('matches spaces and tabs in key and value', () => {
     const body = loadFixture('issues/spaces-tabs.md')
     const params = new Map<string, string>([
       ['name', 'Mona'],
-      ['color', 'royal blue']
-    ])
-    expect(parse(body)).toEqual(params)
-  })
-
-  test('does not match spaces and tabs in key', () => {
-    const body = loadFixture('issues/spaces-tabs.md')
-    const params = new Map<string, string>([
-      ['name', 'Mona'],
-      ['color', 'royal blue']
+      ['favorite color', 'royal blue']
     ])
     expect(parse(body)).toEqual(params)
   })
