@@ -1,5 +1,7 @@
 # Actions Issue Parser
 
+**ARCHIVE NOTICE: Please see https://github.com/ActionsDesk/parse-issue**
+
 Extract useful information from new issues for use in your GitHub Actions.
 
 ## Getting Started
